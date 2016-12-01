@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 require '/var/www/html/wp-load.php';
 require 'AwbDbInterfaceCron.php';
@@ -83,19 +83,24 @@ class IncrementalUpdateCron{
 			$blogName  = $blog['site_slug'];
 
 			// if(  $blogName == 'friidrettsnytt' OR $blogName == 'fotball-pl'){
-			if(   $blogName == 'fotball-pl' OR $blogName == 'fotboll-pl'){
+			/*if(   $blogName == 'fotball-pl' OR $blogName == 'fotboll-pl'){
 				// continue;
 			}else {
 				continue;
-			}
+			}*/
 
 			if (!array_key_exists( $blogName, $feedBlogsFiltered)) {
-			    echo "No Updates for: ".$blogName;
+			    // echo "No Updates for: ".$blogName."<br>";
 			    continue;
 			}
-			echo "<br>Updates for: ".$blogName."<br>";
+
 			/*connect to destination DB */
 			AwbDbInterfaceCron::setDestinationDb( $blogName  );
+			if(!(AwbDbInterfaceCron::hasCategoryIndex())){
+				// echo "<br>Not Valid Blog: ".$blogName."<br>";
+				continue;
+			}
+			echo "<br>Updates for: ".$blogName."<br>";
 
 			$blogFeeds = $feedBlogsFiltered[$blogName];
 			if( !empty($blogFeeds) ){

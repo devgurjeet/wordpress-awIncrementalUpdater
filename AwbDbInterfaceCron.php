@@ -71,6 +71,17 @@ class AwbDbInterfaceCron {
 		return true;
 	}
 
+	public static function hasCategoryIndex(){
+		$wpdb = self::$destinationWpdb;
+		$table_name = 'category_post_index';
+
+		if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 	public static function getSiteUrl( ){
 		$wpdb = self::$destinationWpdb;
 
